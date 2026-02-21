@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Apology</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+      font-family: 'Georgia', serif;
+    }
+
+    h1 {
+      margin-bottom: 40px;
+      color: #7b3f00;
+      font-size: 1.6rem;
+      letter-spacing: 2px;
+      opacity: 0;
+      animation: fadeIn 1s ease 0.3s forwards;
+    }
+
+    /* ── Envelope wrapper ── */
+    .envelope-wrapper {
+      position: relative;
+      width: 320px;
+      height: 220px;
+      cursor: pointer;
+    }
+
+    /* ── Envelope body (back + sides + bottom) ── */
+    .envelope {
+      position: absolute;
+      bottom: 0;
+      width: 320px;
+      height: 220px;
+      background: #f5e6c8;
+      border-radius: 4px 4px 8px 8px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      z-index: 1;
+      overflow: visible;
+    }
+
+    /* Left & right inner triangles (decorative fold lines) */
+    .envelope::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 110px 0 0 160px;
+      border-color: transparent transparent transparent #e8d5a3;
+    }
+
+    .envelope::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 110px 160px 0 0;
+      border-color: transparent #e8d5a3 transparent transparent;
+    }
+
+    /* ── Envelope flap (top triangle that opens) ── */
+    .envelope-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 320px;
+      height: 160px;
+      background: #f0d9a8;
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform-origin: top center;
+      transform: rotateX(0deg);
+      /* Delay z-index change so the fold animation begins first,
+         avoiding a visual flash where the letter briefly shows behind the flap */
+      transition: transform 0.6s ease, z-index 0s 0.3s;
+      z-index: 2;   /* above envelope body by default */
+    }
+
+    /* When envelope is open, flap folds back — keep it BELOW the letter */
+    .envelope-wrapper.open .envelope-flap {
+      transform: rotateX(-180deg);
+      z-index: 1;   /* drop behind the letter */
+    }
+
+    /* ── Letter ── */
+    .letter {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(0);
+      width: 270px;
+      max-height: 230px;   /* Batasi tinggi */
+      overflow-y: auto;    /* Aktifkan scroll vertikal */
+      background: #fffdf7;
+      border-radius: 4px;
+      padding: 24px 20px 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+      z-index: 3;
+      transition: bottom 0.7s ease 0.3s, opacity 0.5s ease 0.3s;
+      pointer-events: none;
+      opacity: 0;
+      height: 180px;
+    } 
+
+    .letter p {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #4a2c00;
+      white-space: pre-line;
+    }
+
+    .letter .signature {
+      margin-top: 16px;
+      text-align: right;
+      font-style: italic;
+      color: #7b3f00;
+    }
+
+    .letter::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .letter::-webkit-scrollbar-thumb {
+      background: #c9a66b;
+      border-radius: 10px;
+    }
+
+    /* When open: slide letter upward and make it visible */
+    .envelope-wrapper.open .letter {
+      bottom: 180px;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* ── Click hint ── */
+    .hint {
+      margin-top: 24px;
+      color: #7b3f00;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      opacity: 0;
+      animation: fadeIn 1s ease 1s forwards;
+    }
+
+    .envelope-wrapper.open ~ .hint {
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Surat buat kamu💌</h1>
+
+  <div class="envelope-wrapper" id="envelopeWrapper" role="button" tabindex="0" aria-label="Open envelope to read letter" title="Click to open">
+    <!-- Letter sits inside the envelope, z-index 3 keeps it above the flap -->
+    <div class="letter" id="letter">
+      <p>halooo vell,
+
+        aku mau minta maaff
+        kaloo kemaren kata kata
+        akuu nyakitin kamu,
+        akuu gaada maksud buat kaya gitu,
+        bolee yaa akuu klarifikasi? giniii
+        kamu itu first time aku ngenalin cewe ke mama,
+        sebelumnya aku gapernah, soalnya aku sendiri
+        yang ngerasain gimana strict nya ortu aku
+        kalo tentang cewe, akuu udaa tauu pasti bakal
+        banyak di komen sama mama aku, makanya aku males,
+        tapi sumpah gaada maksud buat maksa atau ngejudge
+        kamu kok kemaren tuu, aku salah nyampein, sebenernya
+        mama aku juga nyerahin pilihan nya ke aku, bebas itu mah
+        cenah, asal aku bisa ngerawat kamu, ngajarin kamu buat
+        jadi lebih baik mah silahkan cenah, tapi ya gitu lahh
+        mama aku tuh pengen kalo aku punya hubungan tu langsung yang serius,
+        serius nya tuh dalam artian jadi langsung ngerencanain nikah gitu lohh,
+        menurut aku ga secepet itu gasii itu tuh masii lamaa ya gasi masi banyak
+        hal hal yang harus kita kejar, aku tauu mama aku cuma pengan yang
+        terbaik buat aku, meskipun agak salah kalo kata aku cara nya, maafin ya,
+        aku tuh kemaren pengen ngobrol langsung tapi kamunya ga bales bales,
+        aku pengen tau kamu maunya gimana setelah tau se strict itu ortu aku,
+        apa terlalu berat buat kamu, gapapaa sebenernya ga harus langsung menuhin
+        ekspektasi mama aku gitu, mama aku terlalu mau yang perfect buat anaknya, 
+        padahal anak anaknya sendiri masi banyak yang ga bener, intinya
+        aku minta maaf kalo ada kata kata aku atau mama aku yang nyakitin kamu, 
+        aku yakin mama aku juga gaakan ada niat nyakitin anak orang, cuma emang
+        perkataan nya kadang gitu, ga mandang kondisi masing masing, maaf yaa sumpahh
+        apalagi ya, aku mau denger langsung dari kamu nya deh, apa salah aku, 
+        bilang perlakuan apa dari aku yang nyakitin kamu, biar aku bisa jelasin
+        dan perbaikin itu, aku yakin ini salah paham, makanya aku pengen tau langsung
+        dari kamu aku salah dimananya, sekali lagi maaf yaaa, orang baru yang belum
+        sampe seminggu kenal kamu tiba tiba udaa nuntut banyak, akuu gaada maksud gitu,
+        aku terlalu kebawa buat ngikutin ekspektasi mama tanpa mikir dan ngeliat dari sudut pandang 
+        kamu kaya gimana, aku salah dan aku minta maaf. 
+
+      <p class="signature">— with love from fahri</p>
+    </div>
+
+    <!-- Envelope body -->
+    <div class="envelope"></div>
+
+    <!-- Flap on top; folds back on open (z-index drops to 1) -->
+    <div class="envelope-flap" id="envelopeFlap"></div>
+  </div>
+
+  <p class="hint" id="hint">✉ coba buka deh surat nya, klik aja</p>
+
+  <script>
+    const wrapper = document.getElementById('envelopeWrapper');
+    const hint    = document.getElementById('hint');
+
+    wrapper.addEventListener('click', toggle);
+    wrapper.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggle();
+      }
+    });
+
+    function toggle() {
+      wrapper.classList.toggle('open');
+      const isOpen = wrapper.classList.contains('open');
+      wrapper.setAttribute('aria-label', isOpen ? 'Close envelope' : 'Open envelope to read letter');
+      hint.style.opacity = isOpen ? '0' : '';
+    }
+  </script>
+</body>
+</html>
