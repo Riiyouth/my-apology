@@ -106,15 +106,18 @@
       left: 50%;
       transform: translateX(-50%) translateY(0);
       width: 270px;
+      max-height: 180px;   /* Batasi tinggi */
+      overflow-y: auto;    /* Aktifkan scroll vertikal */
       background: #fffdf7;
       border-radius: 4px;
       padding: 24px 20px 20px;
       box-shadow: 0 2px 12px rgba(0,0,0,0.12);
-      z-index: 3;   /* always in front of the flap */
+      z-index: 3;
       transition: bottom 0.7s ease 0.3s, opacity 0.5s ease 0.3s;
       pointer-events: none;
       opacity: 0;
-    }
+      height: 180px;
+    } 
 
     .letter p {
       font-size: 0.95rem;
@@ -128,6 +131,15 @@
       text-align: right;
       font-style: italic;
       color: #7b3f00;
+    }
+
+    .letter::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .letter::-webkit-scrollbar-thumb {
+      background: #c9a66b;
+      border-radius: 10px;
     }
 
     /* When open: slide letter upward and make it visible */
