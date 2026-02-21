@@ -1,0 +1,393 @@
+/* ===== RESET & BASE ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --pink-deep:    #d63384;
+  --pink-mid:     #f06292;
+  --pink-light:   #f8bbd0;
+  --pink-pale:    #fce4ec;
+  --pink-blush:   #fff0f5;
+  --gold:         #f7c5d0;
+  --text-dark:    #7b2d4e;
+  --text-mid:     #ad5c7a;
+  --shadow:       rgba(214, 51, 132, 0.25);
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Georgia', serif;
+  background: linear-gradient(135deg, #ffe0ec 0%, #ffc1d8 40%, #ffadd0 70%, #f9a8c9 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ===== STARS ===== */
+.stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  opacity: 0;
+  animation: starFloat linear infinite;
+}
+
+@keyframes starFloat {
+  0%   { transform: translateY(0) scale(1);   opacity: 0; }
+  15%  { opacity: 0.9; }
+  85%  { opacity: 0.7; }
+  100% { transform: translateY(-110vh) scale(0.5); opacity: 0; }
+}
+
+/* ===== SCENE ===== */
+.scene {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 24px 20px;
+}
+
+/* ===== HINT TEXT ===== */
+.hint-text {
+  font-size: 1.35rem;
+  color: var(--pink-deep);
+  text-align: center;
+  font-style: italic;
+  letter-spacing: 0.03em;
+  text-shadow: 0 1px 8px rgba(246,114,163,0.4);
+  animation: fadeInDown 1.2s ease forwards;
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== TAP TEXT ===== */
+.tap-text {
+  margin-top: 24px;
+  font-size: 0.95rem;
+  color: var(--text-mid);
+  text-align: center;
+  animation: pulse 2s ease-in-out infinite, fadeInUp 1.4s ease forwards;
+  letter-spacing: 0.02em;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.7; }
+  50%       { opacity: 1; }
+}
+
+/* ===== ENVELOPE WRAPPER ===== */
+.envelope-wrapper {
+  position: relative;
+  width: 280px;
+  height: 200px;
+  cursor: pointer;
+  filter: drop-shadow(0 8px 24px var(--shadow));
+  transition: transform 0.2s ease;
+  animation: floatEnvelope 3.5s ease-in-out infinite;
+}
+
+.envelope-wrapper:active {
+  transform: scale(0.96);
+}
+
+@keyframes floatEnvelope {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+/* ===== ENVELOPE BASE ===== */
+.envelope-back {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, #f8c8d8 0%, #f48fb1 100%);
+  border-radius: 6px 6px 12px 12px;
+  z-index: 1;
+}
+
+/* Decorative border */
+.envelope-back::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1.5px dashed rgba(255,255,255,0.6);
+  border-radius: 4px 4px 9px 9px;
+}
+
+/* ===== SIDE FLAPS ===== */
+.envelope-flap {
+  position: absolute;
+  z-index: 2;
+}
+
+.envelope-flap-left {
+  left: 0; top: 0;
+  width: 0; height: 0;
+  border-top: 100px solid transparent;
+  border-bottom: 100px solid transparent;
+  border-left: 140px solid #f48fb1;
+  border-radius: 0 0 0 6px;
+}
+
+.envelope-flap-right {
+  right: 0; top: 0;
+  width: 0; height: 0;
+  border-top: 100px solid transparent;
+  border-bottom: 100px solid transparent;
+  border-right: 140px solid #ec407a;
+  border-radius: 0 0 6px 0;
+}
+
+.envelope-flap-bottom {
+  bottom: 0; left: 0; right: 0;
+  width: 0; height: 0;
+  border-left: 140px solid transparent;
+  border-right: 140px solid transparent;
+  border-bottom: 115px solid #f06292;
+  border-radius: 0 0 12px 12px;
+}
+
+/* ===== TOP FLAP ===== */
+.envelope-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  width: 0; height: 0;
+  border-left: 140px solid transparent;
+  border-right: 140px solid transparent;
+  border-top: 110px solid #f8bbd0;
+  transform-origin: top center;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 5;
+}
+
+/* ===== HEART SEAL ===== */
+.heart-seal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  z-index: 6;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  filter: drop-shadow(0 2px 6px rgba(214,51,132,0.4));
+  animation: heartBeat 1.8s ease-in-out infinite;
+}
+
+@keyframes heartBeat {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  25%        { transform: translate(-50%, -50%) scale(1.15); }
+  50%        { transform: translate(-50%, -50%) scale(1); }
+  75%        { transform: translate(-50%, -50%) scale(1.08); }
+}
+
+/* ===== LETTER ===== */
+.letter {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  width: 240px;
+  max-height: 170px;
+  background: linear-gradient(160deg, #fff8fb 0%, #fff0f5 100%);
+  border-radius: 6px;
+  z-index: 3;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(214,51,132,0.15);
+  opacity: 0;
+  transition: none;
+  pointer-events: none;
+}
+
+/* Letter ruled lines */
+.letter::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 23px,
+    rgba(240, 98, 146, 0.12) 23px,
+    rgba(240, 98, 146, 0.12) 24px
+  );
+  pointer-events: none;
+}
+
+/* ===== LETTER CONTENT ===== */
+.letter-content {
+  padding: 16px 14px 14px;
+  color: var(--text-dark);
+  font-size: 0.82rem;
+  line-height: 1.65;
+  position: relative;
+  z-index: 1;
+}
+
+.letter-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.letter-header h2 {
+  font-size: 1.05rem;
+  color: var(--pink-deep);
+  font-style: italic;
+  font-weight: normal;
+}
+
+.letter-flower {
+  font-size: 1rem;
+}
+
+.letter-content p {
+  margin-bottom: 10px;
+  color: var(--text-dark);
+}
+
+.letter-content em {
+  color: var(--pink-deep);
+  font-style: italic;
+}
+
+.letter-divider {
+  text-align: center;
+  color: var(--pink-mid);
+  margin: 12px 0;
+  letter-spacing: 6px;
+  font-size: 0.75rem;
+}
+
+.letter-signature {
+  margin-top: 12px;
+  text-align: right;
+  color: var(--text-mid);
+  font-style: italic;
+}
+
+.signature {
+  font-size: 1rem;
+  color: var(--pink-deep);
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+.letter-footer {
+  text-align: center;
+  margin-top: 14px;
+  font-size: 1.1rem;
+  letter-spacing: 6px;
+}
+
+/* ===== OPEN STATE ===== */
+
+/* 1. Flip the top flap up */
+.envelope-wrapper.open .envelope-top {
+  transform: rotateX(180deg);
+}
+
+/* 2. Hide the heart seal */
+.envelope-wrapper.open .heart-seal {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.5);
+  animation: none;
+}
+
+/* 3. Stop the float when open */
+.envelope-wrapper.open {
+  animation: none;
+}
+
+/* 4. Letter slides up and becomes scrollable */
+.envelope-wrapper.open .letter {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-160px);
+  max-height: 65vh;
+  overflow-y: auto;
+  pointer-events: all;
+  transition: transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s,
+              opacity 0.4s ease 0.5s,
+              max-height 0.9s ease 0.5s;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Custom scrollbar inside letter */
+.envelope-wrapper.open .letter::-webkit-scrollbar {
+  width: 3px;
+}
+.envelope-wrapper.open .letter::-webkit-scrollbar-thumb {
+  background: var(--pink-light);
+  border-radius: 4px;
+}
+
+/* ===== SPARKLES that appear on open ===== */
+.sparkle {
+  position: absolute;
+  pointer-events: none;
+  z-index: 10;
+  font-size: 1.2rem;
+  animation: sparkleAnim 1s ease forwards;
+}
+
+@keyframes sparkleAnim {
+  0%   { opacity: 1; transform: translate(0, 0) scale(1); }
+  100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.3); }
+}
+
+/* ===== RESPONSIVE TWEAKS ===== */
+@media (max-width: 360px) {
+  .envelope-wrapper {
+    width: 240px;
+    height: 172px;
+  }
+  .envelope-flap-left  { border-left-width: 120px; border-top-width: 86px; border-bottom-width: 86px; }
+  .envelope-flap-right { border-right-width: 120px; border-top-width: 86px; border-bottom-width: 86px; }
+  .envelope-flap-bottom { border-left-width: 120px; border-right-width: 120px; border-bottom-width: 100px; }
+  .envelope-top { border-left-width: 120px; border-right-width: 120px; border-top-width: 96px; }
+  .letter { width: 208px; }
+  .hint-text { font-size: 1.1rem; }
+}
+
+@media (min-width: 480px) {
+  .envelope-wrapper {
+    width: 320px;
+    height: 228px;
+  }
+  .envelope-flap-left  { border-left-width: 160px; border-top-width: 114px; border-bottom-width: 114px; }
+  .envelope-flap-right { border-right-width: 160px; border-top-width: 114px; border-bottom-width: 114px; }
+  .envelope-flap-bottom { border-left-width: 160px; border-right-width: 160px; border-bottom-width: 130px; }
+  .envelope-top { border-left-width: 160px; border-right-width: 160px; border-top-width: 124px; }
+  .letter { width: 280px; }
+}
